@@ -25,22 +25,23 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
 
 .art-gallery {
-  height: 100vh;
+  height: 90vh;
   background-color: black;
   color: #ff6996;
   display: flex;
-  flex-direction: column; /* Postavljamo vertikalno poravnanje */
+  flex-direction: column; /* vertikalno poravnanje */
   align-items: center;
   justify-content: center;
 
   .image-section {
-    /* Postavljamo širinu slike */
+    /* širina slike */
     max-width: 100%;
     margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   .banner-image {
-    max-width: 100%;
+    max-width: 75%; /* za veličinu slike*/
     height: auto;
   }
 
