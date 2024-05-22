@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/ArtGallery.vue'
 import ArtGallery from '../views/ArtGallery.vue'
+import Galerija from '../views/Galerija.vue'
+import Prijava from '../views/Prijava.vue'
+
+// Dodavanje novih komponenti
+const Registracija = () => import(/* webpackChunkName: "registracija" */ '../views/Registracija.vue')
+const PrijavaPrijava = () => import(/* webpackChunkName: "prijavaprijava" */ '../views/PrijavaPrijava.vue')
 
 const routes = [
   {
@@ -8,22 +13,25 @@ const routes = [
     name: 'ArtGallery',
     component: ArtGallery
   },
-  
   {
     path: '/galerija',
     name: 'Galerija',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Galerija.vue')
+    component: Galerija
   },
   {
     path: '/prijava',
     name: 'Prijava',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Prijava.vue')
+    component: Prijava
+  },
+  {
+    path: '/signup',
+    name: 'Registracija',
+    component: Registracija
+  },
+  {
+    path: '/signin',
+    name: 'PrijavaPrijava',
+    component: PrijavaPrijava
   }
 ]
 
