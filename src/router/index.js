@@ -32,6 +32,11 @@ const routes = [
     path: '/signin',
     name: 'PrijavaPrijava',
     component: PrijavaPrijava
+  },
+  {
+    path: '/guest',
+    name: 'Guest',
+    component: Galerija
   }
 ]
 

@@ -48,7 +48,7 @@
 .image-container {
   position: absolute;
   right: 0; /* pomak slike desno */
-  top: 30%; /* podizanje/spustanje slike */
+  top: 40%; /* podizanje/spustanje slike */
   transform: translateY(-50%);
   overflow: hidden; /* Kako bi pseudo-element bio vidljiv samo unutar kontejnera */
 }
