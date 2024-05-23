@@ -4,7 +4,6 @@
       <router-link to="/" class="nav-link left-link" :class="{ active: isActive('/') }">ArtGallery</router-link>
       <router-link to="/galerija" class="nav-link center-link" :class="{ active: isActive('/galerija') }">Galerija</router-link>
       <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link>
-      <router-link to="/guest" class="nav-link right-link" :class="{ active: isActive('/guest') }">Prijava kao Gost</router-link>
     </nav>
     <router-view/>
   </div>
@@ -58,9 +57,5 @@ export default {
 
 .center-link, .right-link {
   color: white; /* Bijela slova za Galerija i Prijava */
-}
-
-.right-link {
-  margin-left: 20px; /* Dodavanje razmaka između desnih linkova */
 }
 </style>

@@ -16,11 +16,10 @@
 export default {
   data() {
     return {
-      isGuest: false // Ovdje možete provjeriti je li korisnik gost
+      isGuest: false
     }
   },
   created() {
-    // Provjera je li korisnik došao kao gost
     if (this.$route.name === 'Guest') {
       this.isGuest = true;
     }
@@ -29,7 +28,6 @@ export default {
 </script>
 
 <style>
-/* Stilovi za galeriju */
 .gallery {
   color: white;
   padding: 20px;
