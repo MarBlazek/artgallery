@@ -2,10 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ArtGallery from '../views/ArtGallery.vue'
 import Galerija from '../views/Galerija.vue'
 import Prijava from '../views/Prijava.vue'
-
-// Dodavanje novih komponenti
-const Registracija = () => import(/* webpackChunkName: "registracija" */ '../views/Registracija.vue')
-const PrijavaPrijava = () => import(/* webpackChunkName: "prijavaprijava" */ '../views/PrijavaPrijava.vue')
+import KreirajIzlozbu from '../views/KreirajIzlozbu.vue' // Import the new view
 
 const routes = [
   {
@@ -24,14 +21,9 @@ const routes = [
     component: Prijava
   },
   {
-    path: '/signup',
-    name: 'Registracija',
-    component: Registracija
-  },
-  {
-    path: '/signin',
-    name: 'PrijavaPrijava',
-    component: PrijavaPrijava
+    path: '/kreiraj-izlozbu',
+    name: 'KreirajIzlozbu',
+    component: KreirajIzlozbu
   }
 ]
 
