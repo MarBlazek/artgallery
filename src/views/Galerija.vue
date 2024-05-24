@@ -94,40 +94,37 @@ export default {
 }
 
 .exhibit-description {
-  background-color: #ff6996; /* Rozo/narančasta boja */
+  background-color: #ff6996; 
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .exhibit-description input[type="text"] {
-  width: 100%;
+  width: 70%;
   padding: 10px;
   border-radius: 5px;
   border: none;
 }
 
 .image-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start; /* Poravnavanje slika prema početku kontejnera */
   gap: 10px;
 }
 
 .image-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: black;
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
+  width: calc(25% - 10px); /* Četvrtina širine s razmakom od 10px */
+  margin-bottom: 10px;
 }
 
 .image-item img {
   width: 100%;
-  height: 200px; /* Definirajte visinu za sve slike kako bi bile iste veličine */
-  object-fit: cover; /* Osigurava da slike zadrže proporcije */
-  border-radius: 5px 5px 0 0;
+  max-height: 200px; /* Ograničavanje visine slika */
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 textarea {
@@ -135,7 +132,7 @@ textarea {
   padding: 8px;
   border-radius: 0 0 5px 5px;
   border: none;
-  background-color: #ff6996; /* Rozo/narančasta boja */
+  background-color: #ff6996; 
   color: black;
   margin-top: 0;
   resize: none; /* Onemogućava promjenu veličine textarea */
@@ -155,7 +152,7 @@ textarea {
 }
 
 .modal-content {
-  background: white;
+  background: rgb(255, 255, 255);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
