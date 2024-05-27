@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ArtGallery from '../views/ArtGallery.vue'
 import Galerija from '../views/Galerija.vue'
 import PrijavaLanding from '../views/PrijavaLanding.vue' // Promijenjeno ime komponente
+import Prijava from '../views/Prijava.vue'
 import Registracija from '../views/Registracija.vue'
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue'
 
@@ -17,9 +18,14 @@ const routes = [
     component: Galerija
   },
   {
-    path: '/prijava',
+    path: '/prijava-izbor', // Ruta za stranicu sa gumbima
+    name: 'PrijavaLanding',
+    component: PrijavaLanding
+  },
+  {
+    path: '/prijava', // Ruta za stvarnu stranicu prijave
     name: 'Prijava',
-    component: PrijavaLanding // Promijenjena referenca komponente
+    component: Prijava
   },
   {
     path: '/registracija',

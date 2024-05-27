@@ -3,7 +3,7 @@
     <nav class="navbar">
       <router-link to="/" class="nav-link left-link" :class="{ active: isActive('/') }">ArtGallery</router-link>
       <router-link to="/galerija" class="nav-link center-link" :class="{ active: isActive('/galerija') }">Galerija</router-link>
-      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link>
+      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link> <!-- Promijenjena ruta -->
     </nav>
     <router-view/>
   </div>
