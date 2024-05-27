@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
     <div class="button-container">
-      <router-link to="/signin" class="btn btn-custom">Prijava</router-link>
-      <router-link to="/signup" class="btn btn-custom">Registracija</router-link>
+      <router-link to="/prijava" class="btn btn-custom">Prijava</router-link>
+      <router-link to="/registracija" class="btn btn-custom">Registracija</router-link>
     </div>
     <div class="image-container">
       <img src="@/assets/maska.png" alt="Descriptive Alt Text" class="side-image" />

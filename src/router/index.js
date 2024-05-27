@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/prijava',
     name: 'Prijava',
-    component: Prijava
+    component: PrijavaLanding
   },
   {
     path: '/registracija',
