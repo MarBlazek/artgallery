@@ -1,19 +1,11 @@
 <template>
-  <div class="registration-container">
+  <div class="login-container">
     <div class="form-container">
-      <h2 class="registration-title">REGISTRACIJA</h2>
-      <form @submit.prevent="handleSubmit" class="registration-form">
+      <h2 class="login-title">PRIJAVA</h2>
+      <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-group">
-          <label for="ime">Ime:</label>
-          <input type="text" id="ime" v-model="form.ime" required>
-        </div>
-        <div class="form-group">
-<label for="korisnicko-ime">Korisničko ime:</label>
-<input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
-</div>
-        <div class="form-group">
-          <label for="email">E-mail:</label>
-          <input type="email" id="email" v-model="form.email" required>
+          <label for="korisnicko-ime">Korisničko ime:</label>
+          <input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
         </div>
         <div class="form-group">
           <label for="lozinka">Lozinka:</label>
@@ -30,49 +22,47 @@
 
 <script>
 export default {
-  name: 'Registracija',
+  name: 'PrijavaPrijava',
   data() {
     return {
       form: {
-        ime: '',
         korisnickoIme: '',
-        email: '',
         lozinka: ''
       }
     }
   },
   methods: {
     handleSubmit() {
-      // Logika za rukovanje registracijom
-      console.log('Registracija podataka:', this.form);
+      // Logika za rukovanje prijavom
+      console.log('Podaci za prijavu:', this.form);
     }
   }
 }
 </script>
 
 <style lang="scss">
-.registration-container {
-position: relative;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-background-color: black;
-padding: 0 20px;
-margin-top: -30px; /* Prilagodite vrijednost prema potrebi */
+.login-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+  padding: 0 20px;
+  margin-top: -30px; /* Prilagodite vrijednost prema potrebi */
 }
 
 .form-container {
-display: flex;
-flex-direction: column;
-align-items: center;
-position: absolute;
-top: 15%; /* Postavljamo gornji rub form-container-a na 25% visine roditeljskog kontejnera */
-left: 50%;
-transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 15%; /* Postavljamo gornji rub form-container-a na 25% visine roditeljskog kontejnera */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.registration-title {
+.login-title {
   margin-bottom: 20px;
   padding: 10px;
   font-size: 24px;
@@ -83,7 +73,7 @@ transform: translateX(-50%);
   text-align: center;
 }
 
-.registration-form {
+.login-form {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -104,12 +94,12 @@ label {
 }
 
 input {
-flex: 1; /* Koristite fleksibilan rast za polje unosa */
-padding: 8px;
-border-radius: 5px;
-border: none;
-background-color: #ff6996;
-color: black;
+  flex: 1; /* Koristite fleksibilan rast za polje unosa */
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #ff6996;
+  color: black;
 }
 
 .btn-submit {
@@ -154,4 +144,3 @@ color: black;
   pointer-events: none; /* Kako bi klikovi prolazili kroz pseudo-element */
 }
 </style>
-  

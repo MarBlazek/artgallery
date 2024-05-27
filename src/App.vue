@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <nav>
-      <router-link to="/">ArtGallery</router-link>
-      <router-link to="/galerija">Galerija</router-link>
-      <router-link to="/prijava-izbor">Prijava/Registracija</router-link> <!-- Ispravljen link -->
+  <div id="app">
+    <nav class="navbar">
+      <router-link to="/" class="nav-link left-link" :class="{ active: isActive('/') }">ArtGallery</router-link>
+      <router-link to="/galerija" class="nav-link center-link" :class="{ active: isActive('/galerija') }">Galerija</router-link>
+      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link>
     </nav>
     <router-view/>
   </div>
@@ -11,7 +11,11 @@
 
 <script>
 export default {
-  name: 'App'
+  methods: {
+    isActive(route) {
+      return this.$route.path === route;
+    }
+  }
 }
 </script>
 
