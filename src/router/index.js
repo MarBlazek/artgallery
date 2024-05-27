@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ArtGallery from '../views/ArtGallery.vue'
 import Galerija from '../views/Galerija.vue'
-import Prijava from '../views/Prijava.vue'
+import PrijavaLanding from '../views/PrijavaLanding.vue' // Promijenjeno ime komponente
 import Registracija from '../views/Registracija.vue'
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue'
 
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/prijava',
     name: 'Prijava',
-    component: PrijavaLanding
+    component: PrijavaLanding // Promijenjena referenca komponente
   },
   {
     path: '/registracija',
