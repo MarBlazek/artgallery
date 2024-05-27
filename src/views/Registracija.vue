@@ -1,54 +1,53 @@
 <template>
-    <div class="registration-container">
-      <div class="form-container">
-        <h2 class="registration-title">REGISTRACIJA</h2>
-        <form @submit.prevent="handleSubmit" class="registration-form">
-          <div class="form-group">
-            <label for="ime">Ime:</label>
-            <input type="text" id="ime" v-model="form.ime" required>
-          </div>
-          <div class="form-group">
-  <label for="korisnicko-ime">Korisničko ime:</label>
-  <input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
-</div>
-          <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" v-model="form.email" required>
-          </div>
-          <div class="form-group">
-            <label for="lozinka">Lozinka:</label>
-            <input type="password" id="lozinka" v-model="form.lozinka" required>
-          </div>
-          <button type="submit" class="btn-submit">POTVRDI</button>
-        </form>
-      </div>
-      <div class="image-container">
-        <img src="@/assets/maska.png" alt="Descriptive Alt Text" class="side-image" />
-      </div>
+  <div class="registration-container">
+    <div class="form-container">
+      <h2 class="registration-title">REGISTRACIJA</h2>
+      <form @submit.prevent="handleSubmit" class="registration-form">
+        <div class="form-group">
+          <label for="ime">Ime:</label>
+          <input type="text" id="ime" v-model="form.ime" required>
+        </div>
+        <div class="form-group">
+          <label for="korisnicko-ime">Korisničko ime:</label>
+          <input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" v-model="form.email" required>
+        </div>
+        <div class="form-group">
+          <label for="lozinka">Lozinka:</label>
+          <input type="password" id="lozinka" v-model="form.lozinka" required>
+        </div>
+        <button type="submit" class="btn-submit">POTVRDI</button>
+      </form>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'Registracija',
-    data() {
-      return {
-        form: {
-          ime: '',
-          korisnickoIme: '',
-          email: '',
-          lozinka: ''
-        }
-      }
-    },
-    methods: {
-      handleSubmit() {
-        // Logika za rukovanje registracijom
-        console.log('Registracija podataka:', this.form);
+    <div class="image-container">
+      <img src="@/assets/maska.png" alt="Descriptive Alt Text" class="side-image" />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Registracija',
+  data() {
+    return {
+      form: {
+        ime: '',
+        korisnickoIme: '',
+        email: '',
+        lozinka: ''
       }
     }
+  },
+  methods: {
+    handleSubmit() {
+      console.log('Registracija podataka:', this.form);
+    }
   }
-  </script>
+}
+</script>
   
   <style lang="scss">
   .registration-container {

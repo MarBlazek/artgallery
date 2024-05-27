@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // Logika za rukovanje prijavom
       console.log('Podaci za prijavu:', this.form);
     }
   }
