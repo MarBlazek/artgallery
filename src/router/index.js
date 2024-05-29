@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ArtGallery from '../views/ArtGallery.vue'
 import Galerija from '../views/Galerija.vue'
 import Prijava from '../views/Prijava.vue'
-import KreirajIzlozbu from '../views/KreirajIzlozbu.vue' // Import the new view
+import PrijavaPrijava from '../views/PrijavaPrijava.vue'
+import Registracija from '../views/Registracija.vue'
 
 const routes = [
   {
@@ -21,9 +22,14 @@ const routes = [
     component: Prijava
   },
   {
-    path: '/kreiraj-izlozbu',
-    name: 'KreirajIzlozbu',
-    component: KreirajIzlozbu
+    path: '/signin',
+    name: 'PrijavaPrijava',
+    component: PrijavaPrijava
+  },
+  {
+    path: '/signup',
+    name: 'Registracija',
+    component: Registracija
   }
 ]
 
