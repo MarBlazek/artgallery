@@ -4,6 +4,7 @@ import Galerija from '../views/Galerija.vue'
 import Prijava from '../views/Prijava.vue'
 import PrijavaPrijava from '../views/PrijavaPrijava.vue'
 import Registracija from '../views/Registracija.vue'
+import KreirajIzlozbu from '../views/KreirajIzlozbu.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/signup',
     name: 'Registracija',
     component: Registracija
+  },
+  {
+    path: '/kreiraj-izlozbu',
+    name: 'KreirajIzlozbu',
+    component: KreirajIzlozbu
   }
 ]
 
