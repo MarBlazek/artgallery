@@ -31,7 +31,7 @@
             id="lozinka" 
             v-model="form.lozinka" required>
         </div>
-        <button type="submit" class="btn-submit">POTVRDI</button>
+        <button type="button" @click="registracija" class="btn-submit">POTVRDI</button>
       </form>
     </div>
     <div class="image-container">
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { firebase } from '@/firebase';
+
 export default {
   name: 'Registracija',
   data() {
@@ -54,12 +56,19 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      // Logika za rukovanje registracijom
-      console.log('Registracija podataka:', this.form);
-    }
-  }
-}
+    registracija() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword (this.korisnickoIme, this.lozinka)
+        .then (function (){
+            console.log('Uspješna registracija');
+        }).catch(function(error) {
+          console.error("Došlo je do greške", error);
+        });
+        console.log('Nastavak');
+    },
+  },
+};
 </script>
 
 <style lang="scss">
