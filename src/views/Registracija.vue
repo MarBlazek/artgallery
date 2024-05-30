@@ -5,19 +5,31 @@
       <form @submit.prevent="handleSubmit" class="registration-form">
         <div class="form-group">
           <label for="ime">Ime:</label>
-          <input type="text" id="ime" v-model="form.ime" required>
+          <input 
+            type="text" 
+            id="ime" 
+            v-model="form.ime" required>
         </div>
         <div class="form-group">
 <label for="korisnicko-ime">Korisničko ime:</label>
-<input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
+<input 
+  type="text" 
+  id="korisnicko-ime" 
+  v-model="form.korisnickoIme" required>
 </div>
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" id="email" v-model="form.email" required>
+          <input 
+            type="email" 
+            id="email" 
+            v-model="form.email" required>
         </div>
         <div class="form-group">
           <label for="lozinka">Lozinka:</label>
-          <input type="password" id="lozinka" v-model="form.lozinka" required>
+          <input 
+            type="password" 
+            id="lozinka" 
+            v-model="form.lozinka" required>
         </div>
         <button type="submit" class="btn-submit">POTVRDI</button>
       </form>
