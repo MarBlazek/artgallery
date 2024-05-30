@@ -11,7 +11,7 @@
     </div>
     <div v-else>
       <div class="exhibit-description">
-        <input type="text" v-model="opisIzlozbe" placeholder="Opis izložbe">
+        <input type="text" v-model="opisIzlozbe" placeholder="Moja prva virtualna izložba. Tehnika: suhi pastel. Autor: M.B.npm">
       </div>
       <div class="image-grid">
         <div v-for="slika in slike" :key="slika.id" class="image-item" @click="otvoriSliku(slika)">
