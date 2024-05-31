@@ -62,7 +62,8 @@ export default {
         .createUserWithEmailAndPassword (this.korisnickoIme, this.lozinka)
         .then (function (){
             console.log('Uspješna registracija');
-        }).catch(function(error) {
+        })
+        .catch(function(error) {
           console.error("Došlo je do greške", error);
         });
         console.log('Nastavak');
