@@ -31,7 +31,8 @@
             id="lozinka" 
             v-model="form.lozinka" required>
         </div>
-        <button type="button" @click="registracija" class="btn-submit">POTVRDI</button>
+        <button type="submit" class="btn-submit">POTVRDI</button>
+        <p v-if="registracijaUspjesna" class="success-message">Registracija je uspješna!</p>
       </form>
     </div>
     <div class="image-container">
@@ -53,14 +54,18 @@ export default {
         korisnickoIme: '',
         email: '',
         lozinka: ''
-      }
+      },
+      registracijaUspjesna: false
     }
   },
   methods: {
-    registracija() {
+    handleSubmit() {
+      console.log('Registracija button clicked');
+      console.log('Form data:', this.form);
       createUserWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
         .then(() => {
           console.log('Uspješna registracija');
+          this.registracijaUspjesna = true;
         })
         .catch((error) => {
           console.error("Došlo je do greške", error);
@@ -70,6 +75,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.success-message {
+  color: green;
+}
+</style>
 
 <style lang="scss">
 .registration-container {
