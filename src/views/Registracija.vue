@@ -11,12 +11,12 @@
             v-model="form.ime" required>
         </div>
         <div class="form-group">
-<label for="korisnicko-ime">Korisničko ime:</label>
-<input 
-  type="text" 
-  id="korisnicko-ime" 
-  v-model="form.korisnickoIme" required>
-</div>
+          <label for="korisnicko-ime">Korisničko ime:</label>
+          <input 
+            type="text" 
+            id="korisnicko-ime" 
+            v-model="form.korisnickoIme" required>
+        </div>
         <div class="form-group">
           <label for="email">E-mail:</label>
           <input 
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { firebase } from '@/firebase';
+import { auth } from '@/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default {
   name: 'Registracija',
@@ -57,16 +58,14 @@ export default {
   },
   methods: {
     registracija() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword (this.korisnickoIme, this.lozinka)
-        .then (function (){
-            console.log('Uspješna registracija');
+      createUserWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
+        .then(() => {
+          console.log('Uspješna registracija');
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.error("Došlo je do greške", error);
         });
-        console.log('Nastavak');
+      console.log('Nastavak');
     },
   },
 };
