@@ -78,7 +78,7 @@ export default {
 
 <style scoped>
 .success-message {
-  color: green;
+  color: rgb(225, 158, 177);
 }
 </style>
 
