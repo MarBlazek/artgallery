@@ -45,9 +45,11 @@ export default {
   methods: {
     handleSubmit() {
       console.log('Pokušaj prijave s:', this.form.email, this.form.lozinka);
+      
       signInWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
         .then((result) => {
           console.log('Uspješna prijava', result);
+          this.$router.replace({name:'ArtGallery'});
         })
         .catch((error) => {
           console.error('Greška pri prijavi:', error.message);
