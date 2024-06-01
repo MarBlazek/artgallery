@@ -4,12 +4,20 @@
       <h2 class="login-title">PRIJAVA</h2>
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-group">
-          <label for="korisnicko-ime">Korisničko ime:</label>
-          <input type="text" id="korisnicko-ime" v-model="form.korisnickoIme" required>
+          <label for="email">Email:</label>
+          <input 
+            type="email" 
+            id="email" 
+            v-model="form.email" 
+            required>
         </div>
         <div class="form-group">
           <label for="lozinka">Lozinka:</label>
-          <input type="password" id="lozinka" v-model="form.lozinka" required>
+          <input 
+            type="password" 
+            id="lozinka" 
+            v-model="form.lozinka" 
+            required>
         </div>
         <button type="submit" class="btn-submit">POTVRDI</button>
       </form>
@@ -21,23 +29,33 @@
 </template>
 
 <script>
+import { auth } from '@/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 export default {
   name: 'PrijavaPrijava',
   data() {
     return {
       form: {
-        korisnickoIme: '',
+        email: '',
         lozinka: ''
       }
     }
   },
   methods: {
     handleSubmit() {
-      // Logika za rukovanje prijavom
-      console.log('Podaci za prijavu:', this.form);
-    }
-  }
-}
+      console.log('Pokušaj prijave s:', this.form.email, this.form.lozinka);
+      signInWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
+        .then((result) => {
+          console.log('Uspješna prijava', result);
+        })
+        .catch((error) => {
+          console.error('Greška pri prijavi:', error.message);
+          alert(`Greška pri prijavi: ${error.message}`);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
