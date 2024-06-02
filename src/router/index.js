@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import ArtGallery from '../views/ArtGallery.vue'
-import Galerija from '../views/Galerija.vue'
-import Prijava from '../views/Prijava.vue'
-import PrijavaPrijava from '../views/PrijavaPrijava.vue'
-import Registracija from '../views/Registracija.vue'
-import KreirajIzlozbu from '../views/KreirajIzlozbu.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import ArtGallery from '../views/ArtGallery.vue';
+import Galerija from '../views/Galerija.vue';
+import Prijava from '../views/Prijava.vue';
+import PrijavaPrijava from '../views/PrijavaPrijava.vue';
+import Registracija from '../views/Registracija.vue';
+import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
+import store from '@/store';
 
 const routes = [
   {
@@ -15,7 +16,10 @@ const routes = [
   {
     path: '/galerija',
     name: 'Galerija',
-    component: Galerija
+    component: Galerija,
+    meta: {
+      needsUser: true,
+    }
   },
   {
     path: '/prijava',
@@ -36,12 +40,23 @@ const routes = [
     path: '/kreiraj-izlozbu',
     name: 'KreirajIzlozbu',
     component: KreirajIzlozbu
-  }
-]
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  console.log('Stara ruta', from.name, '-> nova ruta', to.name, 'korisnik', store.currentUser)
+
+  const noUser = store.currentUser === null;
+  if (noUser && to.meta.needsUser) {
+    next({ name: 'Prijava' }); // Ispravljeno
+  } else {
+    next();
+  }
+});
+
+export default router;
