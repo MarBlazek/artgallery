@@ -31,6 +31,7 @@
 <script>
 import { auth } from '@/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import store from '@/store';
 
 export default {
   name: 'PrijavaPrijava',
@@ -49,7 +50,8 @@ export default {
       signInWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
         .then((result) => {
           console.log('Uspješna prijava', result);
-          this.$router.replace({name:'ArtGallery'});
+          store.currentUser = result.user.email;
+          this.$router.replace({ name: 'ArtGallery' });
         })
         .catch((error) => {
           console.error('Greška pri prijavi:', error.message);

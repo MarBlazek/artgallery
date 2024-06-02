@@ -3,8 +3,8 @@
     <nav class="navbar">
       <router-link to="/" class="nav-link left-link" :class="{ active: isActive('/') }">ArtGallery</router-link>
       <router-link to="/galerija" class="nav-link center-link" :class="{ active: isActive('/galerija') }">Galerija</router-link>
-      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link>
-      <a href="#" @click="logout" class="nav-link right-link">Odjava</a>
+      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }" v-if="!store.currentUser">Prijava/Registracija</router-link>
+      <a href="#" @click="logout" class="nav-link right-link" v-if="store.currentUser">Odjava</a>
     </nav>
     <router-view/>
   </div>
@@ -12,20 +12,36 @@
 
 <script>
 import { auth } from '@/firebase';
-import { signOut } from 'firebase/auth';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import store from '@/store';
 
 export default {
+  computed: {
+    store() {
+      return store;
+    }
+  },
   methods: {
     isActive(route) {
       return this.$route.path === route;
     },
     logout() {
       signOut(auth).then(() => {
+        store.currentUser = null;
         this.$router.push({ name: 'Prijava' });
       }).catch((error) => {
         console.error('Greška pri odjavi:', error);
       });
     }
+  },
+  created() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        store.currentUser = user.email;
+      } else {
+        store.currentUser = null;
+      }
+    });
   }
 }
 </script>
