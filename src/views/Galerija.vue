@@ -4,64 +4,59 @@
     <div v-if="isGuest">
       <p>Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
       <div class="image-grid">
-        <div v-for="slika in slike" :key="slika.id" class="image-item" @click="otvoriSliku(slika)">
-          <img :src="require(`@/assets/${slika.url}`)" :alt="slika.opis">
+        <div v-for="exhibit in exhibits" :key="exhibit.id" class="exhibit-card" @click="otvoriIzlozbu(exhibit.id)">
+          <p>{{ exhibit.description }}</p>
+          <!-- Dodajte prikaz slika izložbe -->
+          <div v-for="image in exhibit.images" :key="image.id" class="image-item">
+            <img :src="image.url" :alt="image.name">
+          </div>
         </div>
       </div>
     </div>
     <div v-else>
-      <div class="exhibit-description">
-        <input type="text" v-model="opisIzlozbe" placeholder="Moja prva virtualna izložba. Tehnika: suhi pastel. Autor: M.B.npm">
-      </div>
       <div class="image-grid">
-        <div v-for="slika in slike" :key="slika.id" class="image-item" @click="otvoriSliku(slika)">
-          <img :src="require(`@/assets/${slika.url}`)" :alt="slika.opis">
-          <textarea v-model="slika.komentar" placeholder="Unesite komentar"></textarea>
+        <div v-for="exhibit in exhibits" :key="exhibit.id" class="exhibit-card" @click="otvoriIzlozbu(exhibit.id)">
+          <p>{{ exhibit.description }}</p>
+          <!-- Dodajte prikaz slika izložbe -->
+          <div v-for="image in exhibit.images" :key="image.id" class="image-item">
+            <img :src="image.url" :alt="image.name">
+          </div>
         </div>
-      </div>
-    </div>
-    <div v-if="prikazanaSlika" class="modal" @click="zatvoriSliku">
-      <div class="modal-content" @click.stop>
-        <img :src="require(`@/assets/${prikazanaSlika.url}`)" :alt="prikazanaSlika.opis">
-        <p>{{ prikazanaSlika.opis }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { db } from '@/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+
 export default {
   data() {
     return {
       isGuest: false,
-      slike: [
-        { id: 1, url: 'ruke.jpg', opis: 'Opis slike 1', komentar: '' },
-        { id: 2, url: 'zena.jpg', opis: 'Opis slike 2', komentar: '' },
-        { id: 3, url: 'deda.jpg', opis: 'Opis slike 3', komentar: '' },
-        { id: 4, url: 'beba.jpg', opis: 'Opis slike 4', komentar: '' },
-        { id: 5, url: 'curica.jpg', opis: 'Opis slike 5', komentar: '' },
-        { id: 6, url: 'zatvor.jpg', opis: 'Opis slike 6', komentar: '' },
-        { id: 7, url: 'baka.jpg', opis: 'Opis slike 7', komentar: '' },
-        { id: 8, url: 'cudenje.jpg', opis: 'Opis slike 8', komentar: '' }
-      ],
-      opisIzlozbe: '',
-      prikazanaSlika: null
+      exhibits: []
     }
   },
   created() {
     if (this.$route.name === 'Guest') {
       this.isGuest = true;
     }
+    this.fetchExhibits();
   },
   methods: {
     kreirajIzlozbu() {
       this.$router.push({ name: 'KreirajIzlozbu' });
     },
-    otvoriSliku(slika) {
-      this.prikazanaSlika = slika;
+    async fetchExhibits() {
+      const querySnapshot = await getDocs(collection(db, 'exhibits'));
+      this.exhibits = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
     },
-    zatvoriSliku() {
-      this.prikazanaSlika = null;
+    otvoriIzlozbu(exhibitId) {
+      this.$router.push({ name: 'Exhibit', params: { id: exhibitId } });
     }
   }
 }
@@ -93,78 +88,31 @@ export default {
   background-color: #ff4f81;
 }
 
-.exhibit-description {
-  background-color: #ff6996; 
+.exhibit-card {
+  background-color: #333;
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.exhibit-description input[type="text"] {
-  width: 70%;
-  padding: 10px;
+.exhibit-card:hover {
+  background-color: #444;
+}
+
+.exhibit-thumbnail {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
   border-radius: 5px;
-  border: none;
 }
 
 .image-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start; /* Poravnavanje slika prema početku kontejnera */
+  align-items: flex-start;
   gap: 10px;
-}
-
-.image-item {
-  width: calc(25% - 10px); /* Četvrtina širine s razmakom od 10px */
-  margin-bottom: 10px;
-}
-
-.image-item img {
-  width: 100%;
-  max-height: 200px; /* Ograničavanje visine slika */
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-textarea {
-  width: 100%;
-  padding: 8px;
-  border-radius: 0 0 5px 5px;
-  border: none;
-  background-color: #ff6996; 
-  color: black;
-  margin-top: 0;
-  resize: none; /* Onemogućava promjenu veličine textarea */
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: rgb(255, 255, 255);
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 90%;
-  max-height: 90%;
-  overflow: auto;
-}
-
-.modal-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 10px;
 }
 </style>

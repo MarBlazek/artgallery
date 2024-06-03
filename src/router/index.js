@@ -5,6 +5,7 @@ import Prijava from '../views/Prijava.vue';
 import PrijavaPrijava from '../views/PrijavaPrijava.vue';
 import Registracija from '../views/Registracija.vue';
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
+import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue'; // Importiraj novu komponentu
 import store from '@/store';
 
 const routes = [
@@ -41,6 +42,14 @@ const routes = [
     name: 'KreirajIzlozbu',
     component: KreirajIzlozbu
   },
+  {
+    path: '/exhibit/:id', // Definiraj rutu s parametrom ID
+    name: 'Exhibit',
+    component: PojedinacnaIzlozba,
+    meta: {
+      needsUser: true,
+    }
+  }
 ];
 
 const router = createRouter({
