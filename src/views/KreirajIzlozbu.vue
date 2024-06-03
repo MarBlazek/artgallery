@@ -10,6 +10,13 @@
           <label for="exhibit-images">Dodaj slike:</label>
           <input type="file" id="exhibit-images" @change="handleFileUpload" multiple required>
         </div>
+        <croppa
+          width="300"
+          height="300"
+          placeholder="Učitaj sliku..."
+          v-model="imageReference"
+          :output="{ width: 300, height: 300 }"
+        ></croppa>
         <button type="submit" class="btn-submit">Kreiraj izložbu</button>
       </div>
       <div class="right-section">
@@ -24,11 +31,19 @@
 </template>
 
 <script>
+import Croppa from 'vue-croppa';
+import 'vue-croppa/dist/vue-croppa.css';
+import { db, storage } from '@/firebase';
+
 export default {
+  components: {
+    Croppa
+  },
   data() {
     return {
       exhibitDescription: '',
-      exhibitImages: []
+      exhibitImages: [],
+      imageReference: null // Za pohranu Croppa reference
     }
   },
   methods: {
@@ -40,13 +55,51 @@ export default {
         name: file.name
       }));
     },
+    addCroppedImage() {
+      if (this.imageReference) {
+        this.imageReference.generateBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const newImage = {
+            id: this.exhibitImages.length + 1,
+            url: url,
+            name: `croppa-image-${this.exhibitImages.length + 1}`
+          };
+          this.exhibitImages.push(newImage);
+
+          // Spremi sliku u Firebase Storage
+          storage
+            .ref(newImage.name)
+            .put(blob)
+            .then(result => {
+              result.ref.getDownloadURL().then(url => {
+                console.log('Javni link', url);
+                db.collection('posts')
+                  .add({
+                    url: url,
+                    email: store.currentUser, // Ovaj dio trebaš provjeriti, jer se koristi store.currentUser, a vjerojatno je store dio neke globalne state biblioteke poput Vuex-a
+                  })
+                  .then((doc) => {
+                    console.log('Spremljeno', doc);
+                    this.getPosts(); // Ako ovo postoji u tvom kodu
+                  })
+                  .catch((e) => {
+                    console.error(e);
+                  });
+              }).catch(e => {
+                console.error(e);
+              });
+            }).catch(error => {
+              console.error('Error uploading image:', error);
+            });
+        });
+      }
+    },
     submitExhibit() {
       // Ovdje dodaj logiku za obradu kreiranja izložbe
       console.log('Exhibit created:', {
         description: this.exhibitDescription,
         images: this.exhibitImages
       });
-      // Preusmjeri ili prikaži poruku o uspjehu nakon kreiranja izložbe
     }
   }
 }
