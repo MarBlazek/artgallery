@@ -15,7 +15,7 @@
       <div class="right-section">
         <div class="image-grid">
           <div v-for="image in exhibitImages" :key="image.id" class="image-item">
-            <img :src="image.url" :alt="image.opis">
+            <img :src="image.url" :alt="image.name">
           </div>
         </div>
       </div>
@@ -33,19 +33,20 @@ export default {
   },
   methods: {
     handleFileUpload(event) {
-      this.exhibitImages = Array.from(event.target.files).map((file, index) => ({
+      const files = Array.from(event.target.files);
+      this.exhibitImages = files.map((file, index) => ({
         id: index + 1,
         url: URL.createObjectURL(file),
-        opis: file.name
+        name: file.name
       }));
     },
     submitExhibit() {
-      // Handle exhibit creation logic here, such as uploading images and saving exhibit details
+      // Ovdje dodaj logiku za obradu kreiranja izložbe
       console.log('Exhibit created:', {
         description: this.exhibitDescription,
         images: this.exhibitImages
       });
-      // Redirect or show a success message after creation
+      // Preusmjeri ili prikaži poruku o uspjehu nakon kreiranja izložbe
     }
   }
 }
