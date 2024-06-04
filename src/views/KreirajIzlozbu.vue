@@ -34,6 +34,7 @@
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import { db, storage } from '@/firebase';
+import store from '@/store';
 
 export default {
   components: {
@@ -55,43 +56,42 @@ export default {
         name: file.name
       }));
     },
+    getImage() {
+      // Promised based, omotač oko callbacka
+      return new Promise((resolveFN, errorFn) => {
+        this.imageReference.generateBlob((data) => {
+          resolveFN(data);
+        });
+      });
+    },
     addCroppedImage() {
       if (this.imageReference) {
-        this.imageReference.generateBlob(blob => {
-          const url = URL.createObjectURL(blob);
-          const newImage = {
-            id: this.exhibitImages.length + 1,
-            url: url,
-            name: `croppa-image-${this.exhibitImages.length + 1}`
-          };
-          this.exhibitImages.push(newImage);
+        this.getImage()
+          .then((blobData) => {
+            console.log(blobData);
+            let imageName = 'posts/' + store.currentUser + '.png';
 
-          // Spremi sliku u Firebase Storage
-          storage
-            .ref(newImage.name)
-            .put(blob)
-            .then(result => {
-              result.ref.getDownloadURL().then(url => {
-                console.log('Javni link', url);
-                db.collection('posts')
-                  .add({
-                    url: url,
-                    email: store.currentUser, // Ovaj dio trebaš provjeriti, jer se koristi store.currentUser, a vjerojatno je store dio neke globalne state biblioteke poput Vuex-a
-                  })
-                  .then((doc) => {
-                    console.log('Spremljeno', doc);
-                    this.getPosts(); // Ako ovo postoji u tvom kodu
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                  });
-              }).catch(e => {
-                console.error(e);
-              });
-            }).catch(error => {
-              console.error('Error uploading image:', error);
+            // Spremi sliku u Firebase Storage
+            return storage.ref(imageName).put(blobData);
+          })
+          .then((result) => {
+            return result.ref.getDownloadURL();
+          })
+          .then((url) => {
+            console.log('Javni link', url);
+            return db.collection('posts').add({
+              url: url,
+              email: store.currentUser, // Ovaj dio trebaš provjeriti, jer se koristi store.currentUser, a vjerojatno je store dio neke globalne state biblioteke poput Vuex-a
             });
-        });
+          })
+          .then((doc) => {
+            console.log('Spremljeno', doc);
+            this.imageReference.remove();
+            this.getPosts(); 
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       }
     },
     submitExhibit() {
@@ -100,9 +100,10 @@ export default {
         description: this.exhibitDescription,
         images: this.exhibitImages
       });
+      this.addCroppedImage(); // Poziva funkciju za dodavanje izrezane slike
     }
   }
-}
+};
 </script>
 
 <style>
