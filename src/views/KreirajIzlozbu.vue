@@ -31,10 +31,12 @@
 </template>
 
 <script>
+import { db, storage } from '@/firebase';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
-import { db, storage } from '@/firebase';
-import store from '@/store';
+import store from '@/store'; // Pretpostavljamo da je store pravilno konfiguriran za korisnika
 
 export default {
   components: {
@@ -44,7 +46,7 @@ export default {
     return {
       exhibitDescription: '',
       exhibitImages: [],
-      imageReference: null // Za pohranu Croppa reference
+      imageReference: null
     }
   },
   methods: {
@@ -56,51 +58,45 @@ export default {
         name: file.name
       }));
     },
-    getImage() {
-      // Promised based, omotač oko callbacka
-      return new Promise((resolveFN, errorFn) => {
-        this.imageReference.generateBlob((data) => {
-          resolveFN(data);
-        });
-      });
-    },
-    addCroppedImage() {
-      if (this.imageReference) {
-        this.getImage()
-          .then((blobData) => {
-            console.log(blobData);
-            let imageName = 'posts/' + store.currentUser + '.png';
+    async submitExhibit() {
+      const user = store.currentUser; // Dohvati trenutno prijavljenog korisnika
 
-            // Spremi sliku u Firebase Storage
-            return storage.ref(imageName).put(blobData);
-          })
-          .then((result) => {
-            return result.ref.getDownloadURL();
-          })
-          .then((url) => {
-            console.log('Javni link', url);
-            return db.collection('posts').add({
-              url: url,
-              email: store.currentUser, // Ovaj dio trebaš provjeriti, jer se koristi store.currentUser, a vjerojatno je store dio neke globalne state biblioteke poput Vuex-a
-            });
-          })
-          .then((doc) => {
-            console.log('Spremljeno', doc);
-            this.imageReference.remove();
-            this.getPosts(); 
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      }
-    },
-    submitExhibit() {
-      // Ovdje dodaj logiku za obradu kreiranja izložbe
-      console.log('Exhibit created:', {
+      // Dodaj izložbu u Firestore
+      const exhibitDoc = await addDoc(collection(db, 'exhibits'), {
         description: this.exhibitDescription,
-        images: this.exhibitImages
+        images: [],
+        user: {
+          email: user.email,
+          displayName: user.displayName || user.email // Koristi displayName ako postoji, inače email
+        }
       });
-      this.addCroppedImage(); // Poziva funkciju za dodavanje izrezane slike
+
+      const promises = this.exhibitImages.map(async (image) => {
+        const file = await fetch(image.url).then(r => r.blob());
+        const storageRef = ref(storage, `images/${exhibitDoc.id}/${image.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+
+        return {
+          url: downloadURL,
+          name: image.name
+        };
+      });
+
+      const uploadedImages = await Promise.all(promises);
+
+      // Ažuriraj dokument izložbe sa slikama
+      const exhibitRef = doc(db, 'exhibits', exhibitDoc.id);
+      await updateDoc(exhibitRef, {
+        images: uploadedImages
+      });
+
+      // Očisti formu
+      this.exhibitDescription = '';
+      this.exhibitImages = [];
+
+      // Preusmjeri na Galerija.vue nakon kreiranja izložbe
+      this.$router.push({ name: 'Galerija' });
     }
   }
 };

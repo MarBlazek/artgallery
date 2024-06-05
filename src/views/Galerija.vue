@@ -3,25 +3,13 @@
     <button class="btn-create-exhibit" @click="kreirajIzlozbu">Kreiraj svoju izložbu</button>
     <div v-if="isGuest">
       <p>Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
-      <div class="image-grid">
-        <div v-for="exhibit in exhibits" :key="exhibit.id" class="exhibit-card" @click="otvoriIzlozbu(exhibit.id)">
-          <p>{{ exhibit.description }}</p>
-          <!-- Dodajte prikaz slika izložbe -->
-          <div v-for="image in exhibit.images" :key="image.id" class="image-item">
-            <img :src="image.url" :alt="image.name">
-          </div>
-        </div>
-      </div>
     </div>
-    <div v-else>
-      <div class="image-grid">
-        <div v-for="exhibit in exhibits" :key="exhibit.id" class="exhibit-card" @click="otvoriIzlozbu(exhibit.id)">
-          <p>{{ exhibit.description }}</p>
-          <!-- Dodajte prikaz slika izložbe -->
-          <div v-for="image in exhibit.images" :key="image.id" class="image-item">
-            <img :src="image.url" :alt="image.name">
-          </div>
-        </div>
+    <div v-if="exhibits.length === 0">
+      <p>Trenutno nema izložbi.</p>
+    </div>
+    <div class="image-grid" v-else>
+      <div v-for="exhibit in exhibits" :key="exhibit.id" class="exhibit-card" @click="otvoriIzlozbu(exhibit.id)">
+        <ArtGalleryCard :exhibit="exhibit" />
       </div>
     </div>
   </div>
@@ -30,8 +18,12 @@
 <script>
 import { db } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import ArtGalleryCard from '@/components/ArtGalleryCard.vue';
 
 export default {
+  components: {
+    ArtGalleryCard,
+  },
   data() {
     return {
       isGuest: false,
@@ -89,7 +81,8 @@ export default {
 }
 
 .exhibit-card {
-  background-color: #333;
+  background-color: #222; /* Tamno siva */
+  color: white; /* Bijeli tekst */
   padding: 10px;
   border-radius: 5px;
   text-align: center;
@@ -98,14 +91,7 @@ export default {
 }
 
 .exhibit-card:hover {
-  background-color: #444;
-}
-
-.exhibit-thumbnail {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
+  background-color: #333; /* Nijansa tamno sive */
 }
 
 .image-grid {
