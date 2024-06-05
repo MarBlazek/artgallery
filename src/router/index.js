@@ -5,7 +5,7 @@ import Prijava from '../views/Prijava.vue';
 import PrijavaPrijava from '../views/PrijavaPrijava.vue';
 import Registracija from '../views/Registracija.vue';
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
-import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue'; // Importiraj novu komponentu
+import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue'; // Da li mi je potrebna ova komponenta?
 import store from '@/store';
 
 const routes = [
