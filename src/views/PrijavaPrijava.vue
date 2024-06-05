@@ -44,19 +44,18 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      console.log('Pokušaj prijave s:', this.form.email, this.form.lozinka);
-      
-      signInWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
-        .then((result) => {
-          console.log('Uspješna prijava', result);
-          store.currentUser = result.user.email;
-          this.$router.replace({ name: 'ArtGallery' });
-        })
-        .catch((error) => {
-          console.error('Greška pri prijavi:', error.message);
-          alert(`Greška pri prijavi: ${error.message}`);
-        });
+    async handleSubmit() {
+      try {
+        console.log('Pokušaj prijave s:', this.form.email, this.form.lozinka);
+        const result = await signInWithEmailAndPassword(auth, this.form.email, this.form.lozinka);
+        console.log('Uspješna prijava', result);
+        store.currentUser = result.user.email;
+        console.log('Trenutni korisnik:', store.currentUser);
+        this.$router.replace({ name: 'ArtGallery' });
+      } catch (error) {
+        console.error('Greška pri prijavi:', error.message);
+        alert(`Greška pri prijavi: ${error.message}`);
+      }
     },
   },
 };
