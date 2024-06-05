@@ -59,18 +59,17 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      console.log('Registracija button clicked');
-      console.log('Form data:', this.form);
-      createUserWithEmailAndPassword(auth, this.form.email, this.form.lozinka)
-        .then(() => {
-          console.log('Uspješna registracija');
-          this.registracijaUspjesna = true;
-        })
-        .catch((error) => {
-          console.error("Došlo je do greške", error);
-        });
-      console.log('Nastavak');
+    async handleSubmit() {
+      try {
+        console.log('Registracija button clicked');
+        console.log('Form data:', this.form);
+        await createUserWithEmailAndPassword(auth, this.form.email, this.form.lozinka);
+        console.log('Uspješna registracija');
+        this.registracijaUspjesna = true;
+        console.log('Registracija uspješna:', this.registracijaUspjesna);
+      } catch (error) {
+        console.error("Došlo je do greške", error);
+      }
     },
   },
 };
