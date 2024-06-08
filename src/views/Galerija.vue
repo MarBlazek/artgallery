@@ -37,10 +37,6 @@ export default {
   },
   created() {
     this.fetchExhibits();
-    // Provjera je li korisnik prijavljen, ako nije, preusmjeri ga na stranicu prijave/registracije
-    if (!this.isUserLoggedIn) {
-      this.$router.push({ name: 'Prijava' });
-    }
   },
   methods: {
     kreirajIzlozbu() {
