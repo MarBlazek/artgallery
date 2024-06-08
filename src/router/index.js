@@ -5,7 +5,7 @@ import Prijava from '../views/Prijava.vue';
 import PrijavaPrijava from '../views/PrijavaPrijava.vue';
 import Registracija from '../views/Registracija.vue';
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
-import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue'; // Da li mi je potrebna ova komponenta?
+import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue';
 import store from '@/store';
 
 const routes = [
@@ -18,9 +18,6 @@ const routes = [
     path: '/galerija',
     name: 'Galerija',
     component: Galerija,
-    meta: {
-      needsUser: true,
-    }
   },
   {
     path: '/prijava',
@@ -40,15 +37,14 @@ const routes = [
   {
     path: '/kreiraj-izlozbu',
     name: 'KreirajIzlozbu',
-    component: KreirajIzlozbu
+    component: KreirajIzlozbu,
+    meta: { needsUser: true }
   },
   {
-    path: '/exhibit/:id', // Definiraj rutu s parametrom ID
+    path: '/exhibit/:id',
     name: 'Exhibit',
     component: PojedinacnaIzlozba,
-    meta: {
-      needsUser: true,
-    }
+    meta: { needsUser: true }
   }
 ];
 
@@ -58,11 +54,20 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('Stara ruta', from.name, '-> nova ruta', to.name, 'korisnik', store.currentUser)
+  console.log('Stara ruta', from.name, '-> nova ruta', to.name, 'korisnik', store.currentUser);
 
   const noUser = store.currentUser === null;
+
+  // Ako korisnik nije prijavljen i pokušava pristupiti stranici koja zahtijeva prijavu, preusmjeri ga na prijavu
   if (noUser && to.meta.needsUser) {
-    next({ name: 'Prijava' }); // Ispravljeno
+    next({ name: 'Prijava' });
+  } else {
+    next();
+  }
+
+  // Ako korisnik nije prijavljen i pokušava pristupiti drugoj ruti osim onih dozvoljenih, preusmjeri ga na ArtGallery
+  if (!store.currentUser && to.name !== 'ArtGallery' && to.name !== 'Galerija' && to.name !== 'Prijava' && to.name !== 'PrijavaPrijava' && to.name !== 'Registracija') {
+    next({ name: 'ArtGallery' });
   } else {
     next();
   }
