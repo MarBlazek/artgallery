@@ -3,8 +3,8 @@
     <nav class="navbar">
       <router-link to="/" class="nav-link left-link" :class="{ active: isActive('/') }">ArtGallery</router-link>
       <router-link to="/galerija" class="nav-link center-link" :class="{ active: isActive('/galerija') }">Galerija</router-link>
-      <router-link to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }" v-if="!store.currentUser">Prijava/Registracija</router-link>
-      <a href="#" @click="logout" class="nav-link right-link" v-if="store.currentUser">Odjava</a>
+      <router-link v-if="!isUserLoggedIn" to="/prijava" class="nav-link right-link" :class="{ active: isActive('/prijava') }">Prijava/Registracija</router-link>
+      <a v-if="isUserLoggedIn" href="#" @click="logout" class="nav-link right-link">Odjava</a>
     </nav>
     <router-view/>
   </div>
@@ -17,8 +17,8 @@ import store from '@/store';
 
 export default {
   computed: {
-    store() {
-      return store;
+    isUserLoggedIn() {
+      return store.currentUser !== null;
     }
   },
   methods: {
@@ -34,12 +34,14 @@ export default {
       });
     }
   },
-  created() {
+  beforeRouteEnter(to, from, next) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         store.currentUser = user.email;
+        next();
       } else {
         store.currentUser = null;
+        next();
       }
     });
   }
