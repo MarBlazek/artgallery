@@ -1,7 +1,7 @@
 <template>
   <div class="gallery">
-    <button v-if="isUserLoggedIn" class="btn-create-exhibit" @click="kreirajIzlozbu">Kreiraj svoju izložbu</button>
-    <div v-if="!isUserLoggedIn">
+    <button class="btn-create-exhibit" @click="kreirajIzlozbu">Kreiraj svoju izložbu</button>
+    <div v-if="isGuest">
       <p>Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
     </div>
     <div v-if="exhibits.length === 0">
@@ -18,7 +18,6 @@
 <script>
 import { db } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import store from '@/store';
 import ArtGalleryCard from '@/components/ArtGalleryCard.vue';
 
 export default {
@@ -27,25 +26,19 @@ export default {
   },
   data() {
     return {
+      isGuest: false,
       exhibits: []
     }
   },
-  computed: {
-    isUserLoggedIn() {
-      return store.currentUser !== null;
-    }
-  },
   created() {
+    if (this.$route.name === 'Guest') {
+      this.isGuest = true;
+    }
     this.fetchExhibits();
   },
   methods: {
     kreirajIzlozbu() {
-      // Provjera je li korisnik prijavljen prije nego što može stvoriti izložbu
-      if (!this.isUserLoggedIn) {
-        this.$router.push({ name: 'Prijava' });
-      } else {
-        this.$router.push({ name: 'KreirajIzlozbu' });
-      }
+      this.$router.push({ name: 'KreirajIzlozbu' });
     },
     async fetchExhibits() {
       const querySnapshot = await getDocs(collection(db, 'exhibits'));
@@ -60,6 +53,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 .gallery {
