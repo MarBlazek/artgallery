@@ -36,7 +36,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
-import store from '@/store'; // Pretpostavljamo da je store pravilno konfiguriran za korisnika
+import store from '@/store'; 
 
 export default {
   components: {

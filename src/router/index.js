@@ -5,7 +5,6 @@ import Prijava from '../views/Prijava.vue';
 import PrijavaPrijava from '../views/PrijavaPrijava.vue';
 import Registracija from '../views/Registracija.vue';
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
-import PojedinacnaIzlozba from '../views/PojedinacnaIzlozba.vue';
 import store from '@/store';
 
 const routes = [
@@ -40,12 +39,6 @@ const routes = [
     component: KreirajIzlozbu,
     meta: { needsUser: true }
   },
-  {
-    path: '/exhibit/:id',
-    name: 'Exhibit',
-    component: PojedinacnaIzlozba,
-    meta: { needsUser: true }
-  }
 ];
 
 const router = createRouter({

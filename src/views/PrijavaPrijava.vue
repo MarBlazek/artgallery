@@ -70,7 +70,7 @@ export default {
   height: 100vh;
   background-color: black;
   padding: 0 20px;
-  margin-top: -30px; /* Prilagodite vrijednost prema potrebi */
+  margin-top: -30px; 
 }
 
 .form-container {
@@ -78,7 +78,7 @@ export default {
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 15%; /* Postavljamo gornji rub form-container-a na 25% visine roditeljskog kontejnera */
+  top: 15%; 
   left: 50%;
   transform: translateX(-50%);
 }
@@ -103,19 +103,19 @@ export default {
 
 .form-group {
   margin-bottom: 15px;
-  display: flex; /* Dodajemo flex da bismo stavke poravnali u istom redu */
-  align-items: center; /* Poravnaj oznaku i polje za unos */
+  display: flex; 
+  align-items: center; 
 }
 
 label {
   display: inline-block;
-  width: 160px; /* Povećavamo širinu oznake */
+  width: 160px; 
   color: white;
-  margin-right: 10px; /* Razmak između oznake i polja za unos */
+  margin-right: 10px; 
 }
 
 input {
-  flex: 1; /* Koristite fleksibilan rast za polje unosa */
+  flex: 1; 
   padding: 8px;
   border-radius: 5px;
   border: none;
@@ -132,7 +132,7 @@ input {
   cursor: pointer;
   margin-top: 20px;
   font-weight: bold;
-  align-self: center; /* Centriranje gumba */
+  align-self: center; 
 }
 
 .btn-submit:hover {
@@ -144,7 +144,7 @@ input {
   right: 0; /* Pomak slike desno */
   top: 40%; /* Podizanje/spuštanje slike */
   transform: translateY(-50%);
-  overflow: hidden; /* Kako bi pseudo-element bio vidljiv samo unutar kontejnera */
+  overflow: hidden; 
 }
 
 .side-image {
@@ -162,6 +162,6 @@ input {
   bottom: 0;
   left: 0;
   background: radial-gradient(circle at center, transparent, black 65%);
-  pointer-events: none; /* Kako bi klikovi prolazili kroz pseudo-element */
+  pointer-events: none; 
 }
 </style>
