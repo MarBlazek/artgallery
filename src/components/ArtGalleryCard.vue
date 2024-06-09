@@ -2,7 +2,7 @@
   <div class="art-gallery-card">
     <div class="exhibit-info">
       <h3>{{ exhibit.description }}</h3>
-      <p class="user-info">{{ exhibit.user && exhibit.user.displayName }}</p> 
+      <p class="user-info">{{ exhibit.user && exhibit.user.displayName }}</p> <!-- Dodali smo provjeru postoji li exhibit.user prije pristupa displayName -->
     </div>
     <div class="exhibit-images">
       <img v-for="image in exhibit.images" :key="image.url" :src="image.url" :alt="image.name" class="exhibit-image"/>
