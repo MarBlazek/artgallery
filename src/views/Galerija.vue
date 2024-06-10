@@ -1,6 +1,6 @@
 <template>
   <div class="gallery">
-    <button class="btn-create-exhibit" @click="kreirajIzlozbu">Kreiraj svoju izložbu</button>
+    <button class="btn-create-exhibit" @click="kreirajIzlozbu" v-if="!isGuest">Kreiraj svoju izložbu</button>
     <div v-if="isGuest">
       <p>Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
     </div>
@@ -19,6 +19,7 @@
 import { db } from '@/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import ArtGalleryCard from '@/components/ArtGalleryCard.vue';
+import store from '@/store';
 
 export default {
   components: {
@@ -31,9 +32,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.name === 'Guest') {
-      this.isGuest = true;
-    }
+    this.isGuest = !store.currentUser;
     this.fetchExhibits();
   },
   methods: {

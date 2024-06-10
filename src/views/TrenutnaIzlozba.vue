@@ -8,7 +8,8 @@
             <div v-for="comment in image.comments" :key="comment.id" class="comment">
               {{ comment.text }}
             </div>
-            <input v-model="newComments[image.name]" @keyup.enter="addComment(image.name)" placeholder="Add a comment...">
+            <input v-if="currentUser" v-model="newComments[image.name]" @keyup.enter="addComment(image.name)" placeholder="Add a comment...">
+            <p v-else>Morate biti prijavljeni da biste dodali komentar.</p>
           </div>
         </div>
       </div>
@@ -18,18 +19,21 @@
   <script>
   import { db } from '@/firebase';
   import { doc, getDoc, collection, getDocs, addDoc } from 'firebase/firestore';
+  import store from '@/store';
   
   export default {
     data() {
       return {
         exhibit: {},
         exhibitImages: [],
-        newComments: {}
+        newComments: {},
+        currentUser: null
       };
     },
     async created() {
       const exhibitId = this.$route.params.id;
       await this.fetchExhibit(exhibitId);
+      this.currentUser = store.currentUser;
     },
     methods: {
       async fetchExhibit(exhibitId) {
@@ -53,11 +57,14 @@
         return comments;
       },
       async addComment(imageName) {
+        if (!this.currentUser) {
+          alert('Morate biti prijavljeni da biste dodali komentar.');
+          return;
+        }
         const newComment = this.newComments[imageName];
         if (newComment) {
-          await addDoc(collection(db, 'comments', imageName, 'imageComments'), { text: newComment });
+          await addDoc(collection(db, 'comments', imageName, 'imageComments'), { text: newComment, userId: this.currentUser });
           this.newComments[imageName] = '';
-          // Refresh comments
           const image = this.exhibitImages.find(img => img.name === imageName);
           if (image) {
             image.comments = await this.fetchComments(imageName);
@@ -108,5 +115,9 @@
     padding: 5px;
     border: none;
     border-radius: 5px;
+  }
+  p {
+    color: gray;
+    margin-top: 10px;
   }
   </style>
