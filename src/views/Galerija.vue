@@ -2,7 +2,7 @@
   <div class="gallery">
     <button class="btn-create-exhibit" @click="kreirajIzlozbu" v-if="!isGuest">Kreiraj svoju izložbu</button>
     <div v-if="isGuest">
-      <p>Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
+      <p class="guest-welcome">Dobrodošli, gost! Nemate mogućnost dodavanja slika ili komentiranja.</p>
     </div>
     <div v-if="exhibits.length === 0">
       <p>Trenutno nema izložbi.</p>
@@ -55,6 +55,10 @@ export default {
 
 
 <style>
+
+.guest-welcome {
+  font-size: 14px; /* Veličina slova za goste */
+}
 .gallery {
   color: white;
   padding: 20px;
