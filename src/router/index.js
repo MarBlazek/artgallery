@@ -5,6 +5,7 @@ import Prijava from '../views/Prijava.vue';
 import PrijavaPrijava from '../views/PrijavaPrijava.vue';
 import Registracija from '../views/Registracija.vue';
 import KreirajIzlozbu from '../views/KreirajIzlozbu.vue';
+import TrenutnaIzlozba from '../views/TrenutnaIzlozba.vue';
 import store from '@/store';
 
 const routes = [
@@ -39,6 +40,10 @@ const routes = [
     component: KreirajIzlozbu,
     meta: { needsUser: true }
   },
+  {path: '/trenutnaIzlozba/:id',
+    name: 'Exhibit',
+    component: TrenutnaIzlozba,
+  }
 ];
 
 const router = createRouter({
@@ -58,12 +63,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 
-  // Ako korisnik nije prijavljen i pokušava pristupiti drugoj ruti osim onih dozvoljenih, preusmjeri ga na ArtGallery
-  if (!store.currentUser && to.name !== 'ArtGallery' && to.name !== 'Galerija' && to.name !== 'Prijava' && to.name !== 'PrijavaPrijava' && to.name !== 'Registracija') {
-    next({ name: 'ArtGallery' });
-  } else {
-    next();
-  }
 });
 
 export default router;

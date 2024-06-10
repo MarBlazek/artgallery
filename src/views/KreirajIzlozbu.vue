@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
           <label for="exhibit-images">Dodaj slike:</label>
-          <input type="file" id="exhibit-images" @change="handleFileUpload" multiple required>
+          <input type="file" multiple="multiple" id="exhibit-images" @change="handleFileUpload" required>
         </div>
         <croppa
           width="300"
@@ -66,8 +66,8 @@ export default {
         description: this.exhibitDescription,
         images: [],
         user: {
-          email: user.email,
-          displayName: user.displayName || user.email // Koristi displayName ako postoji, inače email
+          email: user,
+          displayName: user  // Koristi displayName ako postoji, inače email
         }
       });
 
