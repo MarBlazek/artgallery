@@ -10,7 +10,7 @@
       <p>Svijet je pun ljudi koji vole umjetnost i posjećuju izložbe.</p>
       <p>Teško je uspjeti kao umjetnik. Prilika nije dostupna svima.</p>
       <p>Kreirajte svoju virtualnu izložbu ili posjetite brojne druge.</p>
-      <p>Kad god, gdje god.</p>
+      <p>Kad god, gdje god!</p>
     </div>
   </div>
 </template>
